@@ -347,6 +347,7 @@
   "parentColumnSpace": 20.25,
   "parentId": "0",
   "parentRowSpace": 10,
+  "primaryColumnId": "codigo_de_cuota",
   "primaryColumns": {
     "EditActions1": {
       "alias": "EditActions1",
