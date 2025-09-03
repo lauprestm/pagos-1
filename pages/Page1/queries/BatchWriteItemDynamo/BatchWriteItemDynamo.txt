@@ -1,0 +1,5 @@
+{
+  "RequestItems": {
+    "poc-bd-pagos": {{ appsmith.store.lote_actual }}
+  }
+}

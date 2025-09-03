@@ -1,0 +1,14 @@
+{
+    "TableName": "poc-bd_pagos",
+    "Item": {
+        "codigo_cuota" : {
+            "S" : "P999999"
+        },
+        "codigo_operacion": {
+            "S" : "P99999"
+        },
+        "nro_cuota": {
+            "S" : "9"
+        }
+    }
+}

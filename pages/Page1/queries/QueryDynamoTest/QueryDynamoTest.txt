@@ -1,0 +1,7 @@
+{
+  "TableName": "poc-bd-pagos",
+  "KeyConditionExpression": "codigo_contrato = :valor",
+  "ExpressionAttributeValues": {
+    ":valor": { "S": "PRUEBA" }
+  }
+}

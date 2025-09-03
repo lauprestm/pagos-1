@@ -1,0 +1,10 @@
+{
+    "TableName": "poc-bd-pagos",
+		"FilterExpression": "codigo_contrato = :valor",
+		"ExpressionAttributeValues": {
+			":valor": {
+				"S": "PRUEBA"
+			}
+		},
+		//"Limit": 10
+}

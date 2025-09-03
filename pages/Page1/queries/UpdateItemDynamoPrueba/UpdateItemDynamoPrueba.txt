@@ -1,0 +1,124 @@
+{
+  "TableName": "poc-bd-pagos",
+  "Key": {
+    "codigo_contrato": { "S": "P02499" },
+    "codigo_de_cuota": { "S": "P02499E02046Y00679NORP2P1" }
+  },
+  "UpdateExpression": "SET #puntualidad = :puntualidad, #inversionista = :inversionista, #tipo_de_prestamo = :tipo_de_prestamo, #penalidades = :penalidades, #codigo_operacion = :codigo_operacion, #dias_de_adelanto_de_pago = :dias_de_adelanto_de_pago, #condicion_actual_del_credito = :condicion_actual_del_credito, #fecha_de_pago_del_cliente = :fecha_de_pago_del_cliente, #distrito = :distrito, #capital_pagado = :capital_pagado, #monto_total_pagado_al_credito = :monto_total_pagado_al_credito, #saldo_a_favor = :saldo_a_favor, #status = :status, #saldo_por_cancelar = :saldo_por_cancelar, #interes_pagado = :interes_pagado, #seguimiento_de_pagos = :seguimiento_de_pagos, #cuota_esperada_mensual = :cuota_esperada_mensual, #moneda = :moneda, #amortizacion_esperada_original = :amortizacion_esperada_original, #dias_de_atraso_de_pago = :dias_de_atraso_de_pago, #codigo_empresario = :codigo_empresario, #codigo_inversionista = :codigo_inversionista, #fecha_de_pago_esperada_original = :fecha_de_pago_esperada_original, #empresario = :empresario, #interes_esperado_original = :interes_esperado_original, #nro_cuotas = :nro_cuotas, #detalle_de_condicion = :detalle_de_condicion, #situacion_del_credito = :situacion_del_credito",
+  "ExpressionAttributeNames": {
+    "#puntualidad": "puntualidad",
+    "#inversionista": "inversionista",
+    "#tipo_de_prestamo": "tipo_de_prestamo",
+    "#penalidades": "penalidades",
+    "#codigo_operacion": "codigo_operacion",
+    "#dias_de_adelanto_de_pago": "dias_de_adelanto_de_pago",
+    "#condicion_actual_del_credito": "condicion_actual_del_credito",
+    "#fecha_de_pago_del_cliente": "fecha_de_pago_del_cliente",
+    "#distrito": "distrito",
+    "#capital_pagado": "capital_pagado",
+    "#monto_total_pagado_al_credito": "monto_total_pagado_al_credito",
+    "#saldo_a_favor": "saldo_a_favor",
+    "#status": "status",
+    "#saldo_por_cancelar": "saldo_por_cancelar",
+    "#interes_pagado": "interes_pagado",
+    "#seguimiento_de_pagos": "seguimiento_de_pagos",
+    "#cuota_esperada_mensual": "cuota_esperada_mensual",
+    "#moneda": "moneda",
+    "#amortizacion_esperada_original": "amortizacion_esperada_original",
+    "#dias_de_atraso_de_pago": "dias_de_atraso_de_pago",
+    "#codigo_empresario": "codigo_empresario",
+    "#codigo_inversionista": "codigo_inversionista",
+    "#fecha_de_pago_esperada_original": "fecha_de_pago_esperada_original",
+    "#empresario": "empresario",
+    "#interes_esperado_original": "interes_esperado_original",
+    "#nro_cuotas": "nro_cuotas",
+    "#detalle_de_condicion": "detalle_de_condicion",
+    "#situacion_del_credito": "situacion_del_credito"
+  },
+  "ExpressionAttributeValues": {
+    ":puntualidad": {
+      "S": "AL DÍA"
+    },
+    ":inversionista": {
+      "S": "CARLOS ALFONSO FLORES FOW"
+    },
+    ":tipo_de_prestamo": {
+      "S": "CUOTA FIJA"
+    },
+    ":penalidades": {
+      "N": "0"
+    },
+    ":codigo_operacion": {
+      "S": "P02499E02046Y00679NORP2P"
+    },
+    ":dias_de_adelanto_de_pago": {
+      "N": "1"
+    },
+    ":condicion_actual_del_credito": {
+      "S": "VIGENTE-PRUEBA23"
+    },
+    ":fecha_de_pago_del_cliente": {
+      "S": "2024-03-09"
+    },
+    ":distrito": {
+      "S": "Comas"
+    },
+    ":capital_pagado": {
+      "N": "679.6079202700182"
+    },
+    ":monto_total_pagado_al_credito": {
+      "N": "1977.73"
+    },
+    ":saldo_a_favor": {
+      "N": "0"
+    },
+    ":status": {
+      "S": "SEGUIMIENTO"
+    },
+    ":saldo_por_cancelar": {
+      "N": "69000"
+    },
+    ":interes_pagado": {
+      "N": "1298.12"
+    },
+    ":seguimiento_de_pagos": {
+      "S": "NO CONTIENE DETALLE"
+    },
+    ":cuota_esperada_mensual": {
+      "N": "1977.73"
+    },
+    ":moneda": {
+      "S": "SOLES"
+    },
+    ":amortizacion_esperada_original": {
+      "N": "679.6079202700182"
+    },
+    ":dias_de_atraso_de_pago": {
+      "N": "0"
+    },
+    ":codigo_empresario": {
+      "S": "E02046"
+    },
+    ":codigo_inversionista": {
+      "S": "Y00679"
+    },
+    ":fecha_de_pago_esperada_original": {
+      "S": "2024-03-10"
+    },
+    ":empresario": {
+      "S": "EVELYN VANESSA ANDRES CARRILLO"
+    },
+    ":interes_esperado_original": {
+      "N": "1298.12"
+    },
+    ":nro_cuotas": {
+      "N": "1"
+    },
+    ":detalle_de_condicion": {
+      "S": "AL DÍA"
+    },
+    ":situacion_del_credito": {
+      "S": "NOR"
+    }
+  }
+}

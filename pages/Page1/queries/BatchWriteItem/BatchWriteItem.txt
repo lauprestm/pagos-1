@@ -1,0 +1,21 @@
+{
+    "RequestItems": {
+        "users": [
+            {
+                "PutRequest": {
+                    "Item": {
+                        "team_id" : {
+                            "S" : "team_1"
+                        },
+                        "employee_id": {
+                            "S" : "emp_1"
+                        },
+                        "name": {
+                            "S" : "Aman"
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}

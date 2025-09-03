@@ -1,0 +1,14 @@
+{
+  "TableName": "poc-bd-pagos",
+  "Key": {
+    "codigo_contrato": { "S": "P02499" },
+    "codigo_de_cuota": { "S": "P02499E02046Y00679NORP2P1" }
+  },
+  "UpdateExpression": "SET #condicion_actual_del_credito = :condicion_actual_del_credito",
+  "ExpressionAttributeNames": {
+    "#condicion_actual_del_credito": "condicion_actual_del_credito"
+  },
+  "ExpressionAttributeValues": {
+    ":condicion_actual_del_credito": { "S": "VIGENTE-PRUEBA" }
+  }
+}
