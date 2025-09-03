@@ -271,14 +271,28 @@ export default {
 			const tipo = this.esquemaDynamo[key];
 			const valor = item[key];
 
-			if (valor === "" || valor === null || valor === undefined) continue;
+			if (valor === "" || valor === null || valor === undefined) {
+				if (tipo === "S") {
+					// Strings vacíos o nulos -> espacio en blanco
+					output[key] = { S: " " };
+				} else if (tipo === "N") {
+					// Números vacíos o nulos -> 0
+					output[key] = { N: "0" };
+				}
+				continue;
+			}
 
 			if (tipo === "S") {
-				output[key] = { S: valor.toString() };
+				const texto = valor.toString().trim();
+				// Si después del trim queda vacío -> guardar espacio
+				output[key] = { S: texto === "" ? " " : texto };
 			} else if (tipo === "N") {
 				const numero = Number(valor);
 				if (!isNaN(numero)) {
 					output[key] = { N: numero.toString() };
+				} else {
+					// fallback si no es número válido
+					output[key] = { N: "0" };
 				}
 			}
 		}
