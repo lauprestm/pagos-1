@@ -70,8 +70,8 @@
     "monto_ampliado_renovado_o_sustituido",
     "penalidades",
     "saldo_a_favor",
-    "dias_de_atraso_de_pago",
     "status",
+    "dias_de_atraso_de_pago",
     "dias_de_adelanto_de_pago",
     "seguimiento_de_pagos",
     "condicion_actual_del_credito",
@@ -87,7 +87,7 @@
     "f_de_amortizacion",
     "producto"
   ],
-  "columnUpdatedAt": 1756761145706,
+  "columnUpdatedAt": 1756915592362,
   "columnWidthMap": {
     "condicion_asignada": 234,
     "empresario": 289,

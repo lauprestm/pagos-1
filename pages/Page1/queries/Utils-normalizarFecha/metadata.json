@@ -1,12 +1,16 @@
 {
-  "gitSyncId": "68b744bd856afc4f1d5eb265_53a21a5c-1b93-496d-acaf-e93d9d4d60f4",
-  "id": "Page1_Utils.subirItemsPorLotes",
+  "gitSyncId": "68b744bd856afc4f1d5eb265_50238740-a044-48de-b49e-4b37b6f58efc",
+  "id": "Page1_Utils.normalizarFecha",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
     "actionConfiguration": {
       "encodeParamsToggle": true,
-      "jsArguments": [],
+      "jsArguments": [
+        {
+          "name": "fechaStr"
+        }
+      ],
       "paginationType": "NONE",
       "timeoutInMillisecond": 10000
     },
@@ -22,8 +26,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "Utils.subirItemsPorLotes",
-    "name": "subirItemsPorLotes",
+    "fullyQualifiedName": "Utils.normalizarFecha",
+    "name": "normalizarFecha",
     "pageId": "Page1",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

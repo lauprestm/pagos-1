@@ -1,72 +1,72 @@
 export default {
-  generarExpresionUpdate(filaActualizada, filaOriginal) {
-    const UpdateExpressionParts = [];
-    const ExpressionAttributeNames = {};
-    const ExpressionAttributeValues = {};
+	generarExpresionUpdate(filaActualizada, filaOriginal) {
+		const UpdateExpressionParts = [];
+		const ExpressionAttributeNames = {};
+		const ExpressionAttributeValues = {};
 
-    for (let key in filaActualizada) {
-      if (key === "codigo_contrato" || key === "codigo_de_cuota") continue;
+		for (let key in filaActualizada) {
+			if (key === "codigo_contrato" || key === "codigo_de_cuota") continue;
 
-      const nuevoValor = filaActualizada[key];
-      // const valorAnterior = filaOriginal[key];
+			const nuevoValor = filaActualizada[key];
+			// const valorAnterior = filaOriginal[key];
 
-      // if (JSON.stringify(nuevoValor) === JSON.stringify(valorAnterior)) continue;
+			// if (JSON.stringify(nuevoValor) === JSON.stringify(valorAnterior)) continue;
 
-      const nombreCampo = `#${key}`;
-      const valorCampo = `:${key}`;
-      UpdateExpressionParts.push(`${nombreCampo} = ${valorCampo}`);
-      ExpressionAttributeNames[nombreCampo] = key;
+			const nombreCampo = `#${key}`;
+			const valorCampo = `:${key}`;
+			UpdateExpressionParts.push(`${nombreCampo} = ${valorCampo}`);
+			ExpressionAttributeNames[nombreCampo] = key;
 
-      if (!isNaN(nuevoValor) && nuevoValor !== "") {
-        ExpressionAttributeValues[valorCampo] = { N: String(nuevoValor) };
-      } else {
-        ExpressionAttributeValues[valorCampo] = { S: String(nuevoValor) };
-      }
-    }
+			if (!isNaN(nuevoValor) && nuevoValor !== "") {
+				ExpressionAttributeValues[valorCampo] = { N: String(nuevoValor) };
+			} else {
+				ExpressionAttributeValues[valorCampo] = { S: String(nuevoValor) };
+			}
+		}
 
-    const UpdateExpression = "SET " + UpdateExpressionParts.join(", ");
+		const UpdateExpression = "SET " + UpdateExpressionParts.join(", ");
 
-    return {
-      UpdateExpression,
-      ExpressionAttributeNames,
-      ExpressionAttributeValues,
-    };
-  },
+		return {
+			UpdateExpression,
+			ExpressionAttributeNames,
+			ExpressionAttributeValues,
+		};
+	},
 
-  actualizarItem() {
-    let filaActualizada = Table2.updatedRow;
-    const filaOriginal = Table2.triggeredRow;
+	actualizarItem() {
+		let filaActualizada = Table2.updatedRow;
+		const filaOriginal = Table2.triggeredRow;
 
-    if (!filaActualizada.codigo_contrato || !filaActualizada.codigo_de_cuota) {
-      // showAlert("Faltan claves primarias", "error");
-      return {};
-    }
+		if (!filaActualizada.codigo_contrato || !filaActualizada.codigo_de_cuota) {
+			// showAlert("Faltan claves primarias", "error");
+			return {};
+		}
 
 		// Aplicar fórmulas
 		filaActualizada = Utils.calcularCamposFormula(filaActualizada);
-		
-    const expresiones = this.generarExpresionUpdate(filaActualizada, filaOriginal);
 
-    return {
-      TableName: "poc-bd-pagos",
-      Key: {
-        codigo_contrato: { S: String(filaActualizada.codigo_contrato) },
-        codigo_de_cuota: { S: String(filaActualizada.codigo_de_cuota) }
-      },
-      UpdateExpression: expresiones.UpdateExpression,
-      ExpressionAttributeNames: expresiones.ExpressionAttributeNames,
-      ExpressionAttributeValues: expresiones.ExpressionAttributeValues
-    };
-  },
-	
+		const expresiones = this.generarExpresionUpdate(filaActualizada, filaOriginal);
+
+		return {
+			TableName: "poc-bd-pagos",
+			Key: {
+				codigo_contrato: { S: String(filaActualizada.codigo_contrato) },
+				codigo_de_cuota: { S: String(filaActualizada.codigo_de_cuota) }
+			},
+			UpdateExpression: expresiones.UpdateExpression,
+			ExpressionAttributeNames: expresiones.ExpressionAttributeNames,
+			ExpressionAttributeValues: expresiones.ExpressionAttributeValues
+		};
+	},
+
 	// Reordenar
-  datosReordenados() {
-    const items = QueryDynamo.data.Items;
-    if (!items || items.length === 0) return [];
+	datosReordenados() {
+		const items = QueryDynamo.data.Items;
+		if (!items || items.length === 0) return [];
 
-    // Orden de columnas deseado
-    const ordenColumnas = [
-      "codigo_de_cuota",
+		// Orden de columnas deseado
+		const ordenColumnas = [
+			"codigo_de_cuota",
 			"codigo_operacion",
 			"codigo_contrato",
 			"codigo_empresario",
@@ -120,58 +120,93 @@ export default {
 			"estado_de_prestamo",
 			"f_de_amortizacion",
 			"producto"
-    ];
+		];
 
-    return items.map((item) => {
-      const nuevaFila = {};
+		return items.map((item) => {
+			const nuevaFila = {};
 
-      // Primero agrega columnas en orden definido
-      ordenColumnas.forEach((col) => {
-        if (col in item) {
-          nuevaFila[col] = item[col];
-        }
-      });
+			// Primero agrega columnas en orden definido
+			ordenColumnas.forEach((col) => {
+				if (col in item) {
+					nuevaFila[col] = item[col];
+				}
+			});
 
-      // Luego agrega el resto de columnas no incluidas en el orden
-      Object.keys(item).forEach((col) => {
-        if (!(col in nuevaFila)) {
-          nuevaFila[col] = item[col];
-        }
-      });
+			// Luego agrega el resto de columnas no incluidas en el orden
+			Object.keys(item).forEach((col) => {
+				if (!(col in nuevaFila)) {
+					nuevaFila[col] = item[col];
+				}
+			});
 
-      return nuevaFila;
-    });
-  },
+			return nuevaFila;
+		});
+	},
 
 	// Procesar CSV
-  procesarArchivo: async (file) => {
+	procesarArchivo: async (file) => {
 		if (!file || typeof file.data !== "string") {
 			// showAlert("Archivo inválido o no es texto plano", "error");
 			return [];
 		}
 
 		const contenido = file.data;
-
 		const lineas = contenido.trim().split("\n");
 		const headers = lineas[0].split(";").map(h => h.trim());
 
-		const data = lineas.slice(1).map(linea => {
-			const valores = linea.split(";").map(v => v.trim());
+		// Lista de columnas que deben ser fechas
+		const columnasFecha = [
+			"fecha_de_pago_del_cliente",
+			"fecha_de_pago_esperada_original",
+			"f_de_amortizacion"
+		];
 
+		// Helper: validar y normalizar fechas
+		function normalizarFecha(fechaStr, colName, rowIndex) {
+			if (!fechaStr || fechaStr.trim() === "") return null;
+
+			const fechaLimpia = fechaStr.trim();
+
+			// Caso 1: formato YYYY-MM-DD
+			const regexISO = /^\d{4}-\d{2}-\d{2}$/;
+			if (regexISO.test(fechaLimpia)) {
+				return fechaLimpia;
+			}
+
+			// Caso 2: formato DD/MM/YYYY → convertir a YYYY-MM-DD
+			const regexLatam = /^\d{2}\/\d{2}\/\d{4}$/;
+			if (regexLatam.test(fechaLimpia)) {
+				const [dia, mes, anio] = fechaLimpia.split("/").map(Number);
+				return `${anio}-${String(mes).padStart(2, "0")}-${String(dia).padStart(2, "0")}`;
+			}
+
+			// Ningún formato válido
+			throw new Error(
+				`Formato inválido en columna "${colName}", fila ${rowIndex + 2}: "${fechaStr}". Se espera YYYY-MM-DD o DD/MM/YYYY`
+			);
+		}
+
+		const data = lineas.slice(1).map((linea, rowIndex) => {
+			const valores = linea.split(";").map(v => v.trim());
 			const obj = {};
+
 			headers.forEach((h, i) => {
-				obj[h] = valores[i] ?? null;
+				let valor = valores[i] ?? null;
+
+				if (columnasFecha.includes(h)) {
+					valor = normalizarFecha(valor, h, rowIndex);
+				}
+
+				obj[h] = valor;
 			});
 
-			// Aplicar fórmulas a cada fila
 			return Utils.calcularCamposFormula(obj);
-			// return obj;
 		});
 
 		storeValue("preview_data", data);
 		return data;
 	},
-	
+
 	// Carga de registros en dynamo
 	esquemaDynamo: {
 		codigo_de_cuota: "S",
@@ -228,59 +263,45 @@ export default {
 		estado_de_prestamo: "S",
 		f_de_amortizacion: "S",
 		producto: "S"
-  },
+	},
 
-  prepararItem(item) {
-    const output = {};
-    for (let key in item) {
-      const tipo = this.esquemaDynamo[key];
-      const valor = item[key];
+	prepararItem(item) {
+		const output = {};
+		for (let key in item) {
+			const tipo = this.esquemaDynamo[key];
+			const valor = item[key];
 
-      if (valor === "" || valor === null || valor === undefined) {
-				if (tipo === "S") {
-					// Strings vacíos -> se guarda como lista vacía
-					output[key] = { S: " " };
-				} else if (tipo === "N") {
-					// Números vacíos -> se guarda como 0
-					output[key] = { N: "0" };
+			if (valor === "" || valor === null || valor === undefined) continue;
+
+			if (tipo === "S") {
+				output[key] = { S: valor.toString() };
+			} else if (tipo === "N") {
+				const numero = Number(valor);
+				if (!isNaN(numero)) {
+					output[key] = { N: numero.toString() };
 				}
-				continue;
 			}
+		}
+		return output;
+	},
 
-      if (tipo === "S") {
-        const texto = valor.toString().trim();
-				// Si después del trim queda vacío -> guardar espacio
-				output[key] = { S: texto === "" ? " " : texto };
-      } else if (tipo === "N") {
-        const numero = Number(valor);
-        if (!isNaN(numero)) {
-          output[key] = { N: numero.toString() };
-        } else {
-					// fallback si el valor no es numérico
-					output[key] = { N: "0" };
-      	}
-      }
-    }
-    return output;
-  },
+	prepararItems(items) {
+		return items.map((item) => ({
+			PutRequest: {
+				Item: this.prepararItem(item)
+			}
+		}));
+	},
 
-  prepararItems(items) {
-    return items.map((item) => ({
-      PutRequest: {
-        Item: this.prepararItem(item)
-      }
-    }));
-  },
+	cargarDynamo() {
+		const data = appsmith.store.preview_data;
+		if (!Array.isArray(data) || data.length === 0) {
+			return [];
+		}
 
-  cargarDynamo() {
-    const data = appsmith.store.preview_data;
-    if (!Array.isArray(data) || data.length === 0) {
-      return [];
-    }
+		return this.prepararItems(data);
+	},
 
-    return this.prepararItems(data);
-  },
-	
 	dividirEnChunks(array, tamano) {
 		const chunks = [];
 		for (let i = 0; i < array.length; i += tamano) {
@@ -288,7 +309,7 @@ export default {
 		}
 		return chunks;
 	},
-	
+
 	subirItemsPorLotes: async () => {
 		try {
 			const allItems = Utils.cargarDynamo();
@@ -325,17 +346,24 @@ export default {
 			showAlert("La carga falló: " + err.message, "error");
 		}
 	},
-	
+
+	normalizarFecha(fechaStr) {
+		if (!fechaStr || fechaStr.trim() === "") return null;
+		const f = new Date(fechaStr.trim()); 
+		f.setHours(0, 0, 0, 0); // normaliza a medianoche local
+		return f;
+	},
+
 	// Calculo de columnas
 	calcularCamposFormula: (item) => {
 		const hoy = new Date(); // Fecha actual de usuario que ejecuta
-		
-		const fechaPagoClienteRaw = item.fecha_de_pago_del_cliente;
-		const fechaEsperadaRaw = item.fecha_de_pago_esperada_original;
+
+		const fechaPagoClienteRaw = Utils.normalizarFecha(item.fecha_de_pago_del_cliente);
+		const fechaEsperadaRaw = Utils.normalizarFecha(item.fecha_de_pago_esperada_original);
 
 		const fechaPagoCliente = fechaPagoClienteRaw ? new Date(fechaPagoClienteRaw) : null;
 		const fechaEsperada = fechaEsperadaRaw ? new Date(fechaEsperadaRaw) : null;
-		
+
 		// Campo: status
 		let status = item.status;
 		if (!status || status === "") {
@@ -345,7 +373,7 @@ export default {
 				status = "TODAVIA NO VENCE";
 			}
 		}
-		
+
 		// Campo: dias_de_atraso_de_pago
 		let diasAtrasoDePago = 0;
 		if (!fechaPagoCliente && status === "SEGUIMIENTO") {
