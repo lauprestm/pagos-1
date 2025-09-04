@@ -382,7 +382,7 @@
       "label": "Save / Discard",
       "notation": "standard",
       "onDiscard": "{{}}",
-      "onSave": "{{UpdateItemDynamo.run().then(() => {\n  showAlert('Actualizado registro', 'success');\n}).catch(() => {\n  showAlert('Error en la actualización', 'error');\n});\nQueryDynamo.run().then(() => {});}}",
+      "onSave": "{{UpdateItemDynamo.run().then(() => {\n  showAlert('Registro Actualizado', 'success');\n}).catch(() => {\n  showAlert('Error en la actualización', 'error');\n});\nQueryDynamo.run().then(() => {});}}",
       "originalId": "EditActions1",
       "saveActionLabel": "Save",
       "saveBorderRadius": "{{Table2.processedTableData.map((currentRow, currentIndex) => ( (appsmith.theme.borderRadius.appBorderRadius)))}}",
