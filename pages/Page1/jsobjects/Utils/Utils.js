@@ -9,7 +9,7 @@ export default {
 
 			const nuevoValor = filaActualizada[key];
 			// const valorAnterior = filaOriginal[key];
-
+			
 			// if (JSON.stringify(nuevoValor) === JSON.stringify(valorAnterior)) continue;
 
 			const nombreCampo = `#${key}`;
@@ -17,17 +17,33 @@ export default {
 			UpdateExpressionParts.push(`${nombreCampo} = ${valorCampo}`);
 			ExpressionAttributeNames[nombreCampo] = key;
 
-			if (!isNaN(nuevoValor) && nuevoValor !== "") {
-				ExpressionAttributeValues[valorCampo] = { N: String(nuevoValor) };
-			} else {
-				ExpressionAttributeValues[valorCampo] = { S: String(nuevoValor) };
+			const tipo = Utils.esquemaDynamo[key];
+
+			if (tipo === "N") {
+				// Números
+				if (nuevoValor === "" || nuevoValor === null || nuevoValor === undefined) {
+					ExpressionAttributeValues[valorCampo] = { N: "0" };
+				} else {
+					const numero = Number(nuevoValor);
+					ExpressionAttributeValues[valorCampo] = {
+						N: isNaN(numero) ? "0" : numero.toString(),
+					};
+				}
+			} else if (tipo === "S") {
+				// Strings
+				if (nuevoValor === "" || nuevoValor === null || nuevoValor === undefined) {
+					ExpressionAttributeValues[valorCampo] = { S: " " };
+				} else {
+					const texto = String(nuevoValor).trim();
+					ExpressionAttributeValues[valorCampo] = {
+						S: texto === "" ? " " : texto,
+					};
+				}
 			}
 		}
 
-		const UpdateExpression = "SET " + UpdateExpressionParts.join(", ");
-
 		return {
-			UpdateExpression,
+			UpdateExpression: "SET " + UpdateExpressionParts.join(", "),
 			ExpressionAttributeNames,
 			ExpressionAttributeValues,
 		};
