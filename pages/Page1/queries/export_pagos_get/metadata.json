@@ -21,7 +21,7 @@
       "httpMethod": "POST",
       "httpVersion": "HTTP11",
       "paginationType": "NONE",
-      "path": "/test/export",
+      "path": "/export",
       "pluginSpecifiedTemplates": [
         {
           "value": true
