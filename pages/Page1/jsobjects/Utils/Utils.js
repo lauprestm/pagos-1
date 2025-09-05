@@ -49,6 +49,63 @@ export default {
 		};
 	},
 
+	ordenColumnas: [
+		"codigo_de_cuota",
+		"codigo_operacion",
+		"codigo_contrato",
+		"codigo_empresario",
+		"empresario",
+		"codigo_inversionista",
+		"inversionista",
+		"tipo_de_prestamo",
+		"situacion_del_credito",
+		"distrito",
+		"cuota_esperada_mensual",
+		"nro_cuotas",
+		"fecha_de_pago_esperada_original",
+		"saldo_por_cancelar",
+		"interes_esperado_fraccionado_original",
+		"amortizacion_esperada_fraccionado_original",
+		"interes_esperado_original",
+		"amortizacion_esperada_original",
+		"igv_esperada_original",
+		"cuota_esperada_actualizada",
+		"saldo_por_cancelar_esperado_actualizada",
+		"capital_fraccionado_actualizado",
+		"interes_fraccionado_actualizado",
+		"interes_esperado_actualizado",
+		"amortizacion_esperada_actualizado",
+		"igv_esperada_actualizado",
+		"fecha_de_pago_del_cliente",
+		"monto_total_pagado_al_credito",
+		"capital_fraccionado_pagado",
+		"interes_fraccionado_pagado",
+		"capital_pagado",
+		"interes_pagado",
+		"igv_pagado",
+		"descuento_de_interes",
+		"descuento_de_capital",
+		"monto_ampliado_renovado_o_sustituido",
+		"penalidades",
+		"saldo_a_favor",
+		"dias_de_atraso_de_pago",
+		"status",
+		"dias_de_adelanto_de_pago",
+		"seguimiento_de_pagos",
+		"condicion_actual_del_credito",
+		"detalle_de_condicion",
+		"condicion_asignada",
+		"causal_de_cancelacion",
+		"medio_de_cancelacion",
+		"puntualidad",
+		"moneda",
+		"fondo",
+		"prestamo_es_fondeado_por_swap",
+		"estado_de_prestamo",
+		"f_de_amortizacion",
+		"producto"
+	],
+	
 	actualizarItem() {
 		let filaActualizada = Table2.updatedRow;
 		const filaOriginal = Table2.triggeredRow;
@@ -81,68 +138,13 @@ export default {
 		if (!items || items.length === 0) return [];
 
 		// Orden de columnas deseado
-		const ordenColumnas = [
-			"codigo_de_cuota",
-			"codigo_operacion",
-			"codigo_contrato",
-			"codigo_empresario",
-			"empresario",
-			"codigo_inversionista",
-			"inversionista",
-			"tipo_de_prestamo",
-			"situacion_del_credito",
-			"distrito",
-			"cuota_esperada_mensual",
-			"nro_cuotas",
-			"fecha_de_pago_esperada_original",
-			"saldo_por_cancelar",
-			"interes_esperado_fraccionado_original",
-			"amortizacion_esperada_fraccionado_original",
-			"interes_esperado_original",
-			"amortizacion_esperada_original",
-			"igv_esperada_original",
-			"cuota_esperada_actualizada",
-			"saldo_por_cancelar_esperado_actualizada",
-			"capital_fraccionado_actualizado",
-			"interes_fraccionado_actualizado",
-			"interes_esperado_actualizado",
-			"amortizacion_esperada_actualizado",
-			"igv_esperada_actualizado",
-			"fecha_de_pago_del_cliente",
-			"monto_total_pagado_al_credito",
-			"capital_fraccionado_pagado",
-			"interes_fraccionado_pagado",
-			"capital_pagado",
-			"interes_pagado",
-			"igv_pagado",
-			"descuento_de_interes",
-			"descuento_de_capital",
-			"monto_ampliado_renovado_o_sustituido",
-			"penalidades",
-			"saldo_a_favor",
-			"dias_de_atraso_de_pago",
-			"status",
-			"dias_de_adelanto_de_pago",
-			"seguimiento_de_pagos",
-			"condicion_actual_del_credito",
-			"detalle_de_condicion",
-			"condicion_asignada",
-			"causal_de_cancelacion",
-			"medio_de_cancelacion",
-			"puntualidad",
-			"moneda",
-			"fondo",
-			"prestamo_es_fondeado_por_swap",
-			"estado_de_prestamo",
-			"f_de_amortizacion",
-			"producto"
-		];
+		// Vuelto variable global
 
 		return items.map((item) => {
 			const nuevaFila = {};
 
 			// Primero agrega columnas en orden definido
-			ordenColumnas.forEach((col) => {
+			this.ordenColumnas.forEach((col) => {
 				if (col in item) {
 					nuevaFila[col] = item[col];
 				}
@@ -177,6 +179,14 @@ export default {
 			"f_de_amortizacion"
 		];
 
+		// Validar columnas obligatorias usando this.ordenColumnas
+		const faltantes = this.ordenColumnas.filter(c => !headers.includes(c));
+		if (faltantes.length > 0) {
+			throw new Error(
+				`El archivo no contiene todas las columnas requeridas. Faltan: ${faltantes.join(", ")}`
+			);
+		}
+		
 		// Helper: validar y normalizar fechas
 		function normalizarFecha(fechaStr, colName, rowIndex) {
 			if (!fechaStr || fechaStr.trim() === "") return null;
