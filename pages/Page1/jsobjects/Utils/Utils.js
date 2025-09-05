@@ -137,10 +137,18 @@ export default {
 		const items = QueryDynamo.data.Items;
 		if (!items || items.length === 0) return [];
 
-		// Orden de columnas deseado
-		// Vuelto variable global
+		// 🔹 Ordenar primero por codigo_operación (string), luego por nro_cuota (num)
+		const itemsOrdenados = _.orderBy(
+			items,
+			[
+				(item) => item.codigo_operacion,      // primer criterio
+				(item) => Number(item.nro_cuotas)      // segundo criterio
+			],
+			["asc", "asc"] // puedes cambiar a ["asc", "desc"] si quieres el 2do descendente
+		);
 
-		return items.map((item) => {
+		// 🔹 Reordenar columnas según tu orden definido
+		return itemsOrdenados.map((item) => {
 			const nuevaFila = {};
 
 			// Primero agrega columnas en orden definido
