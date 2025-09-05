@@ -172,7 +172,7 @@ export default {
 	// Procesar CSV
 	procesarArchivo: async (file) => {
 		if (!file || typeof file.data !== "string") {
-			// showAlert("Archivo inválido o no es texto plano", "error");
+			showAlert("Archivo inválido o no es texto plano", "error");
 			return [];
 		}
 
@@ -190,11 +190,13 @@ export default {
 		// Validar columnas obligatorias usando this.ordenColumnas
 		const faltantes = this.ordenColumnas.filter(c => !headers.includes(c));
 		if (faltantes.length > 0) {
-			throw new Error(
-				`El archivo no contiene todas las columnas requeridas. Faltan: ${faltantes.join(", ")}`
+			showAlert(
+				`El archivo no contiene todas las columnas requeridas. Faltan: ${faltantes.join(", ")}`,
+				"error"
 			);
+			return []; // Corta el flujo y evita seguir procesando
 		}
-		
+
 		// Helper: validar y normalizar fechas
 		function normalizarFecha(fechaStr, colName, rowIndex) {
 			if (!fechaStr || fechaStr.trim() === "") return null;
@@ -214,10 +216,12 @@ export default {
 				return `${anio}-${String(mes).padStart(2, "0")}-${String(dia).padStart(2, "0")}`;
 			}
 
-			// Ningún formato válido
-			throw new Error(
-				`Formato inválido en columna "${colName}", fila ${rowIndex + 2}: "${fechaStr}". Se espera YYYY-MM-DD o DD/MM/YYYY`
+			// Ningún formato válido → usar showAlert en vez de throw
+			showAlert(
+				`Formato inválido en columna "${colName}", fila ${rowIndex + 2}: "${fechaStr}". Se espera YYYY-MM-DD o DD/MM/YYYY`,
+				"error"
 			);
+			return null; // ⬅️ evita romper toda la ejecución
 		}
 
 		const data = lineas.slice(1).map((linea, rowIndex) => {

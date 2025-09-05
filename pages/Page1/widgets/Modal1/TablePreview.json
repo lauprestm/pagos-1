@@ -84,10 +84,9 @@
     "fondo",
     "prestamo_es_fondeado_por_swap",
     "estado_de_prestamo",
-    "f_de_amortizacion",
-    "producto"
+    "f_de_amortizacion"
   ],
-  "columnUpdatedAt": 1756915592362,
+  "columnUpdatedAt": 1757113492209,
   "columnWidthMap": {
     "condicion_asignada": 234,
     "empresario": 289,
@@ -275,9 +274,6 @@
     },
     {
       "key": "primaryColumns.f_de_amortizacion.computedValue"
-    },
-    {
-      "key": "primaryColumns.producto.computedValue"
     }
   ],
   "dynamicPropertyPathList": [
@@ -1838,40 +1834,6 @@
       "label": "prestamo_es_fondeado_por_swap",
       "notation": "standard",
       "originalId": "prestamo_es_fondeado_por_swap",
-      "sticky": "",
-      "textColor": "",
-      "textSize": "0.875rem",
-      "thousandSeparator": true,
-      "validation": {},
-      "verticalAlignment": "CENTER",
-      "width": 150
-    },
-    "producto": {
-      "alias": "producto",
-      "allowCellWrapping": false,
-      "allowSameOptionsInNewRow": true,
-      "cellBackground": "",
-      "columnType": "text",
-      "computedValue": "{{(() => { const tableData = TablePreview.processedTableData || []; return tableData.length > 0 ? tableData.map((currentRow, currentIndex) => (currentRow[\"producto\"])) : producto })()}}",
-      "currencyCode": "USD",
-      "decimals": 0,
-      "enableFilter": true,
-      "enableSort": true,
-      "fontStyle": "",
-      "horizontalAlignment": "LEFT",
-      "id": "producto",
-      "index": 53,
-      "isCellEditable": false,
-      "isCellVisible": true,
-      "isDerived": false,
-      "isDisabled": false,
-      "isDiscardVisible": true,
-      "isEditable": false,
-      "isSaveVisible": true,
-      "isVisible": true,
-      "label": "producto",
-      "notation": "standard",
-      "originalId": "producto",
       "sticky": "",
       "textColor": "",
       "textSize": "0.875rem",
